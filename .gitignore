@@ -1,0 +1,13 @@
+*.user
+*.suo
+*.ncrunch*
+*.log
+
+[Dd]ebug*/
+[Rr]elease*/
+packages/
+output/
+bin/
+*ncrunch*/
+.fake/
+.vs/
