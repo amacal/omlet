@@ -12,7 +12,7 @@ namespace Omlet
 
         public static void Enable(TinyIoCContainer container, IPipelines pipelines)
         {
-            IBrokenSchemaHandler handler;
+            ISchemaHandler handler;
             container.TryResolve(out handler);
 
             isEnabled = true;

@@ -41,7 +41,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBrokenSchemaHandler.cs" />
+    <Compile Include="ISchemaHandler.cs" />
     <Compile Include="OmletSchema.cs" />
     <Compile Include="OmletSchemaExtensions.cs" />
     <Compile Include="OmletSchemaHandler.cs" />

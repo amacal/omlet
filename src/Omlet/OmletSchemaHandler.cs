@@ -1,5 +1,7 @@
-﻿using Nancy;
+﻿using Jinx.Schema;
+using Nancy;
 using System;
+using System.Collections.Generic;
 
 namespace Omlet
 {
@@ -8,27 +10,18 @@ namespace Omlet
         public OmletSchemaHandler()
         {
             OnRequest = OnRequestFallback;
-            OnResponse = OnResponseFallback;
         }
 
-        public OmletSchemaHandler(IBrokenSchemaHandler handler)
+        public OmletSchemaHandler(ISchemaHandler handler)
         {
-            OnRequest = handler.OnRequest;
-            //OnResponse = handler.OnResponse;
+            OnRequest = handler.OnBrokenRequest;
         }
 
-        public Func<NancyContext, Request, object, Response> OnRequest { get; private set; }
+        public Func<NancyContext, Request, IResponseFormatter, ICollection<JsonSchemaMessage>, Response> OnRequest { get; private set; }
 
-        public Func<NancyContext, Response, object, Response> OnResponse { get; private set; }
-
-        private Response OnRequestFallback(NancyContext context, Request request, object violations)
+        private static Response OnRequestFallback(NancyContext context, Request request, IResponseFormatter formatter, ICollection<JsonSchemaMessage> violations)
         {
             return HttpStatusCode.BadRequest;
-        }
-
-        private Response OnResponseFallback(NancyContext context, Response response, object violations)
-        {
-            return HttpStatusCode.InternalServerError;
         }
     }
 }
