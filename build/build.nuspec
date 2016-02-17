@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
+  <id>omlet</id>
+  <title>Omlet Nancy Extension</title>
+  <version>1.0</version>
+  <authors>Adrian Macal</authors>
+  <owners>Adrian Macal</owners>
+  <summary>Json library</summary>
+  <licenseUrl>https://raw.githubusercontent.com/amacal/omlet/master/LICENSE.txt</licenseUrl>
+  <projectUrl>https://github.com/amacal/omlet</projectUrl>
+  <iconUrl>https://raw.githubusercontent.com/amacal/omlet/master/icon.png</iconUrl>
+  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  <description>A library which enables Nancy requests validation against JsonSchema.</description>
+  <releaseNotes>Initial version</releaseNotes>
+  <copyright>Copyright Adrian Macal 2016</copyright>    
+  <tags>nancy json schema integration</tags>
+  @dependencies@
+  @references@
+  </metadata>
+  @files@
+</package>

@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Omlet.Tests
 {
+    [Collection("Nancy")]
     public class SchemaValidationTests
     {
         private readonly INancyBootstrapper bootstrapper;

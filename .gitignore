@@ -11,3 +11,7 @@ bin/
 *ncrunch*/
 .fake/
 .vs/
+
+build/*
+!build/build.fsx
+!build/build.nuspec

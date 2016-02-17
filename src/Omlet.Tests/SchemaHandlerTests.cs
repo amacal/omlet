@@ -4,10 +4,10 @@ using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Testing;
 using Xunit;
-using Nancy.Responses;
 
 namespace Omlet.Tests
 {
+    [Collection("Nancy")]
     public class SchemaHandlerTests
     {
         private readonly INancyBootstrapper bootstrapper;
