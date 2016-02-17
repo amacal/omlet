@@ -6,7 +6,7 @@
   <version>1.0</version>
   <authors>Adrian Macal</authors>
   <owners>Adrian Macal</owners>
-  <summary>Json library</summary>
+  <summary>JsonSchema Extension for Nancy</summary>
   <licenseUrl>https://raw.githubusercontent.com/amacal/omlet/master/LICENSE.txt</licenseUrl>
   <projectUrl>https://github.com/amacal/omlet</projectUrl>
   <iconUrl>https://raw.githubusercontent.com/amacal/omlet/master/icon.png</iconUrl>

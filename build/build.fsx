@@ -42,8 +42,8 @@ Target "CreatePackage" (fun _ ->
             Version = "1.0"
             OutputPath = "./build/package"
             WorkingDir = "./build/release"
-            Dependencies = []
             Files = [( "Omlet.dll", Some "lib\\net45", None )]
+            Dependencies = [ "jinx", GetPackageVersion "./packages/" "jinx" ]
             Publish = false }) "./build/build.nuspec"
 )
 
