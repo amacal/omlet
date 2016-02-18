@@ -26,7 +26,7 @@ namespace Omlet.Tests
         }
 
         [Fact]
-        public void PostInvalidPayload()
+        public void RequestWithInvalidPayload()
         {
             BrowserResponse result = browser.Get("/users/search", with =>
             {
@@ -38,11 +38,40 @@ namespace Omlet.Tests
             Assert.NotEmpty(result.Body.AsString());
         }
 
+        [Fact]
+        public void ResponseWithInvalidPayload()
+        {
+            BrowserResponse result = browser.Get("/users/search", with =>
+            {
+                with.Header("Content-Type", "application/json");
+                with.Body(@"{ ""firstName"":"""", ""lastName"":"""" }");
+            });
+
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        }
+
         public class UsersModule : NancyModule
         {
             public UsersModule()
             {
-                Get["/users/search"] = this.WithSchema(x => HttpStatusCode.OK).OnRequest("/schemas/users-search");
+                Get["/users/search"] =
+                    this.WithSchema(OnUserSearch)
+                    .OnRequest("/schemas/users-search")
+                    .OnResponse(HttpStatusCode.OK, "/schemas/users-search-200");
+            }
+
+            private Response OnUserSearch(dynamic parameters)
+            {
+                var model = new[]
+                {
+                    new
+                    {
+                        lastName = "john",
+                        firstName = 13
+                    }
+                };
+
+                return Response.AsJson(model);
             }
         }
 
@@ -51,6 +80,11 @@ namespace Omlet.Tests
             public Response OnBrokenRequest(NancyContext context, Request request, IResponseFormatter formatter, ICollection<JsonSchemaMessage> violations)
             {
                 return formatter.AsJson(new { }, HttpStatusCode.BadRequest);
+            }
+
+            public Response OnBrokerResponse(NancyContext context, Request request, Response response, IResponseFormatter formatter, ICollection<JsonSchemaMessage> violations)
+            {
+                return HttpStatusCode.InternalServerError;
             }
         }
     }

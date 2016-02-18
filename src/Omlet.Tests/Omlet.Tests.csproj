@@ -68,15 +68,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OnRequestSchemaTests.cs" />
+    <Compile Include="OnResponseSchemaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaHandlerTests.cs" />
     <Compile Include="OnRequestPathTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Schemas\users-search">
+    <EmbeddedResource Include="Schemas\users-search">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\users-search-200">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Omlet\Omlet.csproj">

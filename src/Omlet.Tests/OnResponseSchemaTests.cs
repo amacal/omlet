@@ -9,12 +9,12 @@ using Xunit;
 namespace Omlet.Tests
 {
     [Collection("Nancy")]
-    public class OnRequestSchemaTests
+    public class OnResponseSchemaTests
     {
         private readonly INancyBootstrapper bootstrapper;
         private readonly Browser browser;
 
-        public OnRequestSchemaTests()
+        public OnResponseSchemaTests()
         {
             bootstrapper = new ConfigurableBootstrapper(with =>
             {
@@ -26,16 +26,14 @@ namespace Omlet.Tests
         }
 
         [Fact]
-        public void RequestWithInvalidPayload()
+        public void ResponseWithInvalidPayload()
         {
             BrowserResponse result = browser.Get("/users/search", with =>
             {
                 with.Header("Content-Type", "application/json");
-                with.Body(@"{ ""firstName"":"""", ""lastName"":null }");
             });
 
-            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-            Assert.Empty(result.Body.AsString());
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         public class UsersModule : NancyModule
@@ -43,18 +41,32 @@ namespace Omlet.Tests
             public UsersModule()
             {
                 Get["/users/search"] =
-                    this.WithSchema(x => HttpStatusCode.OK)
-                    .OnRequest(Schemas.UsersSearch);
+                    this.WithSchema(OnUserSearch)
+                    .OnResponse(HttpStatusCode.OK, Schemas.UsersSearch200);
+            }
+
+            private Response OnUserSearch(dynamic parameters)
+            {
+                var model = new[]
+                {
+                    new
+                    {
+                        lastName = "john",
+                        firstName = 13
+                    }
+                };
+
+                return Response.AsJson(model);
             }
         }
 
         public static class Schemas
         {
-            public static JsonSchema UsersSearch
+            public static JsonSchema UsersSearch200
             {
                 get
                 {
-                    using (Stream stream = OpenStream("Schemas.users-search"))
+                    using (Stream stream = OpenStream("Schemas.users-search-200"))
                         return JsonConvert.GetSchema(stream);
                 }
             }
