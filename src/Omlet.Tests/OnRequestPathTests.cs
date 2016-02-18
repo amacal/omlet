@@ -6,16 +6,16 @@ using Xunit;
 namespace Omlet.Tests
 {
     [Collection("Nancy")]
-    public class SchemaValidationTests
+    public class OnRequestPathTests
     {
         private readonly INancyBootstrapper bootstrapper;
         private readonly Browser browser;
 
-        public SchemaValidationTests()
+        public OnRequestPathTests()
         {
             bootstrapper = new ConfigurableBootstrapper(with =>
             {
-                with.AllDiscoveredModules();
+                with.Module<UsersModule>();
                 with.ApplicationStartup(OmletSchema.Enable);
             });
 
@@ -33,6 +33,16 @@ namespace Omlet.Tests
 
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
             Assert.Empty(result.Body.AsString());
+        }
+
+        public class UsersModule : NancyModule
+        {
+            public UsersModule()
+            {
+                Get["/users/search"] =
+                    this.WithSchema(x => HttpStatusCode.OK)
+                    .OnRequest("/schemas/users-search");
+            }
         }
     }
 }

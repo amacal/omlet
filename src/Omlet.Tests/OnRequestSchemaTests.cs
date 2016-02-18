@@ -1,25 +1,25 @@
-﻿using Jinx.Schema;
+﻿using Jinx;
+using Jinx.Schema;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Testing;
-using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace Omlet.Tests
 {
     [Collection("Nancy")]
-    public class SchemaHandlerTests
+    public class OnRequestSchemaTests
     {
         private readonly INancyBootstrapper bootstrapper;
         private readonly Browser browser;
 
-        public SchemaHandlerTests()
+        public OnRequestSchemaTests()
         {
             bootstrapper = new ConfigurableBootstrapper(with =>
             {
                 with.Module<UsersModule>();
                 with.ApplicationStartup(OmletSchema.Enable);
-                with.Dependency<ISchemaHandler>(typeof(SchemaHandler));
             });
 
             browser = new Browser(bootstrapper);
@@ -35,22 +35,33 @@ namespace Omlet.Tests
             });
 
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-            Assert.NotEmpty(result.Body.AsString());
+            Assert.Empty(result.Body.AsString());
         }
 
         public class UsersModule : NancyModule
         {
             public UsersModule()
             {
-                Get["/users/search"] = this.WithSchema(x => HttpStatusCode.OK).OnRequest("/schemas/users-search");
+                Get["/users/search"] =
+                    this.WithSchema(x => HttpStatusCode.OK)
+                    .OnRequest(Schemas.UsersSearch);
             }
         }
 
-        private class SchemaHandler : ISchemaHandler
+        public static class Schemas
         {
-            public Response OnBrokenRequest(NancyContext context, Request request, IResponseFormatter formatter, ICollection<JsonSchemaMessage> violations)
+            public static JsonSchema UsersSearch
             {
-                return formatter.AsJson(new { }, HttpStatusCode.BadRequest);
+                get
+                {
+                    using (Stream stream = OpenStream("Schemas.users-search"))
+                        return JsonConvert.GetSchema(stream);
+                }
+            }
+
+            private static Stream OpenStream(string resource)
+            {
+                return typeof(Schemas).Assembly.GetManifestResourceStream(typeof(Schemas), resource);
             }
         }
     }

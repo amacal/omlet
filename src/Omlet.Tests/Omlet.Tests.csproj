@@ -67,10 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modules\UsersModule.cs" />
+    <Compile Include="OnRequestSchemaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaHandlerTests.cs" />
-    <Compile Include="SchemaValidationTests.cs" />
+    <Compile Include="OnRequestPathTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
