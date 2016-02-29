@@ -43,11 +43,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISchemaConfiguration.cs" />
     <Compile Include="ISchemaHandler.cs" />
     <Compile Include="OmletSchema.cs" />
     <Compile Include="OmletSchemaBuilder.cs" />
     <Compile Include="OmletSchemaExtensions.cs" />
     <Compile Include="OmletSchemaHandler.cs" />
+    <Compile Include="OmletSchemaProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

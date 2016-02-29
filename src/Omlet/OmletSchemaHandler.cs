@@ -10,16 +10,16 @@ namespace Omlet
         private readonly Func<NancyContext, Request, IResponseFormatter, ICollection<JsonSchemaMessage>, Response> onRequest;
         private readonly Func<NancyContext, Request, Response, IResponseFormatter, ICollection<JsonSchemaMessage>, Response> onResponse;
 
-        public OmletSchemaHandler()
-        {
-            onRequest = OnRequestFallback;
-            onResponse = OnResponseFallback;
-        }
-
         public OmletSchemaHandler(ISchemaHandler handler)
         {
-            onRequest = handler.OnBrokenRequest;
-            onResponse = handler.OnBrokerResponse;
+            if (handler != null)
+            {
+                onRequest = handler.OnBrokenRequest;
+                onResponse = handler.OnBrokerResponse;
+            }
+
+            onRequest = onRequest ?? OnRequestFallback;
+            onResponse = onResponse ?? OnResponseFallback;
         }
 
         public Func<NancyContext, Request, IResponseFormatter, ICollection<JsonSchemaMessage>, Response> OnRequest

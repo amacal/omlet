@@ -7,7 +7,7 @@ namespace Omlet
     public static class OmletSchema
     {
         private static bool isEnabled;
-        private static IRootPathProvider rootProvider;
+        private static OmletSchemaProvider schemaProvider;
         private static OmletSchemaHandler schemaHandler;
 
         public static void Enable(TinyIoCContainer container, IPipelines pipelines)
@@ -15,9 +15,12 @@ namespace Omlet
             ISchemaHandler handler;
             container.TryResolve(out handler);
 
+            ISchemaConfiguration configuration;
+            container.TryResolve(out configuration);
+
             isEnabled = true;
-            rootProvider = container.Resolve<IRootPathProvider>();
-            schemaHandler = handler != null ? new OmletSchemaHandler(handler) : new OmletSchemaHandler();
+            schemaProvider = new OmletSchemaProvider(container.Resolve<IRootPathProvider>(), configuration);
+            schemaHandler = new OmletSchemaHandler(handler);
         }
 
         public static bool IsEnabled
@@ -25,9 +28,9 @@ namespace Omlet
             get { return isEnabled; }
         }
 
-        public static IRootPathProvider RootProvider
+        public static OmletSchemaProvider SchemaProvider
         {
-            get { return rootProvider; }
+            get { return schemaProvider; }
         }
 
         public static OmletSchemaHandler SchemaHandler

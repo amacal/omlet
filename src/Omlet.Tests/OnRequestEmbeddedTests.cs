@@ -1,24 +1,24 @@
-﻿using Jinx;
-using Jinx.Schema;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Testing;
-using System.IO;
 using Xunit;
 
 namespace Omlet.Tests
 {
     [Collection("Nancy")]
-    public class OnRequestSchemaTests
+    public class OnRequestEmbeddedTests
     {
         private readonly INancyBootstrapper bootstrapper;
         private readonly Browser browser;
 
-        public OnRequestSchemaTests()
+        public OnRequestEmbeddedTests()
         {
             bootstrapper = new ConfigurableBootstrapper(with =>
             {
                 with.Module<UsersModule>();
+                with.Dependency<ISchemaConfiguration>(new SchemaConfiguration());
                 with.ApplicationStartup(OmletSchema.Enable);
             });
 
@@ -38,30 +38,34 @@ namespace Omlet.Tests
             Assert.Empty(result.Body.AsString());
         }
 
+        [Fact]
+        public void RequestWithValidPayload()
+        {
+            BrowserResponse result = browser.Get("/users/search", with =>
+            {
+                with.Header("Content-Type", "application/json");
+                with.Body(@"{ ""firstName"":"""", ""lastName"":"""" }");
+            });
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.Empty(result.Body.AsString());
+        }
+
         public class UsersModule : NancyModule
         {
             public UsersModule()
             {
                 Get["/users/search"] =
                     this.WithSchema(x => HttpStatusCode.OK)
-                    .OnRequest(Schemas.UsersSearch);
+                        .OnRequest("/schemas/users-search-embedded");
             }
         }
 
-        public static class Schemas
+        public class SchemaConfiguration : ISchemaConfiguration
         {
-            public static JsonSchema UsersSearch
+            public IEnumerable<Assembly> Assemblies
             {
-                get
-                {
-                    using (Stream stream = OpenStream("Schemas.users-search-embedded"))
-                        return JsonConvert.GetSchema(stream);
-                }
-            }
-
-            private static Stream OpenStream(string resource)
-            {
-                return typeof(Schemas).Assembly.GetManifestResourceStream(typeof(Schemas), resource);
+                get { yield return typeof(SchemaConfiguration).Assembly; }
             }
         }
     }

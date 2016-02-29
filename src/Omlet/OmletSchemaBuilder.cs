@@ -25,10 +25,7 @@ namespace Omlet
 
         public OmletSchemaBuilder OnRequest(string path)
         {
-            string root = OmletSchema.RootProvider.GetRootPath();
-            string full = Path.Combine(root, path.Trim('/', '\\')).Trim('/', '\\').Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
-
-            return OnRequest(JsonConvert.GetSchema(full));
+            return OnRequest(OmletSchema.SchemaProvider.GetSchema(path));
         }
 
         public OmletSchemaBuilder OnRequest(JsonSchema schema)
@@ -39,10 +36,7 @@ namespace Omlet
 
         public OmletSchemaBuilder OnResponse(HttpStatusCode status, string path)
         {
-            string root = OmletSchema.RootProvider.GetRootPath();
-            string full = Path.Combine(root, path.Trim('/', '\\')).Trim('/', '\\').Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
-
-            return OnResponse(status, JsonConvert.GetSchema(full));
+            return OnResponse(status, OmletSchema.SchemaProvider.GetSchema(path));
         }
 
         public OmletSchemaBuilder OnResponse(HttpStatusCode status, JsonSchema schema)
