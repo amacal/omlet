@@ -67,8 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OnRequestBindTests.cs" />
     <Compile Include="OnRequestEmbeddedTests.cs" />
     <Compile Include="OnRequestSchemaTests.cs" />
+    <Compile Include="OnResponseDataTests.cs" />
     <Compile Include="OnResponseSchemaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaHandlerTests.cs" />

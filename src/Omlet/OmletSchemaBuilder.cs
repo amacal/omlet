@@ -65,6 +65,7 @@ namespace Omlet
                 {
                     schema = builder.onRequest;
                     document = JsonConvert.GetDocument(module.Request.Body);
+                    module.Request.Body.Seek(0, SeekOrigin.Begin);
 
                     if (document != null && schema.IsValid(document.Root, messages) == false)
                         return OmletSchema.SchemaHandler.OnRequest(module.Context, module.Request, module.Response, messages);
