@@ -39,7 +39,7 @@ Target "ExecuteTests" (fun _ ->
 Target "CreatePackage" (fun _ ->
      NuGet (fun p -> 
         { p with
-            Version = "2.1"
+            Version = "2.2"
             OutputPath = "./build/package"
             WorkingDir = "./build/release"
             Files = [( "Omlet.dll", Some "lib\\net45", None )]

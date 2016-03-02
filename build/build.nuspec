@@ -3,7 +3,7 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
   <id>omlet</id>
   <title>Omlet Nancy Extension</title>
-  <version>2.1</version>
+  <version>2.2</version>
   <authors>Adrian Macal</authors>
   <owners>Adrian Macal</owners>
   <summary>JsonSchema Extension for Nancy</summary>
