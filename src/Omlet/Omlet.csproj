@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jinx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\jinx.1.0\lib\net45\Jinx.dll</HintPath>
+      <HintPath>..\..\packages\jinx.1.1\lib\net45\Jinx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
