@@ -19,7 +19,6 @@ namespace Omlet.Tests
             bootstrapper = new ConfigurableBootstrapper(with =>
             {
                 with.Module<UsersModule>();
-                with.ApplicationStartup(OmletSchema.Enable);
             });
 
             browser = new Browser(bootstrapper);

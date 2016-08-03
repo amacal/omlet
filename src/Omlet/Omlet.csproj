@@ -50,6 +50,7 @@
     <Compile Include="OmletSchemaExtensions.cs" />
     <Compile Include="OmletSchemaHandler.cs" />
     <Compile Include="OmletSchemaProvider.cs" />
+    <Compile Include="OmletStartup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

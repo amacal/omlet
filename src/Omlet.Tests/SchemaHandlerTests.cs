@@ -18,7 +18,6 @@ namespace Omlet.Tests
             bootstrapper = new ConfigurableBootstrapper(with =>
             {
                 with.Module<UsersModule>();
-                with.ApplicationStartup(OmletSchema.Enable);
                 with.Dependency<ISchemaHandler>(typeof(SchemaHandler));
             });
 

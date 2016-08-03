@@ -19,7 +19,6 @@ namespace Omlet.Tests
             {
                 with.Module<UsersModule>();
                 with.Dependency<ISchemaConfiguration>(new SchemaConfiguration());
-                with.ApplicationStartup(OmletSchema.Enable);
             });
 
             browser = new Browser(bootstrapper);
