@@ -11,14 +11,21 @@ namespace Omlet
     {
         private readonly IRootPathProvider rootProvider;
         private readonly ISchemaConfiguration configuration;
+        private readonly OmletSchemaCache cache;
 
         public OmletSchemaProvider(IRootPathProvider rootProvider, ISchemaConfiguration configuration)
         {
             this.rootProvider = rootProvider;
             this.configuration = configuration;
+            this.cache = new OmletSchemaCache(ResolveSchema);
         }
 
         public JsonSchema GetSchema(string path)
+        {
+            return cache.Resolve(path);
+        }
+
+        private JsonSchema ResolveSchema(string path)
         {
             string root = rootProvider.GetRootPath();
             string full = Path.Combine(root, path.Trim('/', '\\')).Trim('/', '\\').Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
